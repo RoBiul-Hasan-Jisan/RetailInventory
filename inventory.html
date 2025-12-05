@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory | RetailPro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar (Same as dashboard) -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-store"></i>
+                    <h1>Retail<span>Pro</span></h1>
+                </div>
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <div class="sidebar-menu">
+                <ul>
+                    <li>
+                        <a href="dashboard.html">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="products.html">
+                            <i class="fas fa-boxes"></i>
+                            <span>Products</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="sales.html">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Sales</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="inventory.html">
+                            <i class="fas fa-warehouse"></i>
+                            <span>Inventory</span>
+                            <span class="badge low-stock">3</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="customers.html">
+                            <i class="fas fa-users"></i>
+                            <span>Customers</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="reports.html">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Reports</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="sidebar-footer">
+                    <div class="user-info">
+                        <div class="user-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="user-details">
+                            <h4>Admin User</h4>
+                            <p>Store Manager</p>
+                        </div>
+                    </div>
+                    <a href="index.html" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="main-header">
+                <div class="header-left">
+                    <h2>Inventory Management</h2>
+                    <p>Monitor stock levels, manage inventory, and track product movement.</p>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-secondary" id="inventoryReportBtn">
+                        <i class="fas fa-file-export"></i> Generate Report
+                    </button>
+                    <button class="btn btn-primary" id="adjustStockBtn">
+                        <i class="fas fa-edit"></i> Adjust Stock
+                    </button>
+                </div>
+            </header>
+            
+            <!-- Inventory Content -->
+            <div class="content-section">
+                <!-- Inventory Summary -->
+                <div class="inventory-summary">
+                    <div class="summary-card">
+                        <div class="summary-icon total">
+                            <i class="fas fa-boxes"></i>
+                        </div>
+                        <div class="summary-info">
+                            <h3 id="totalProducts">0</h3>
+                            <p>Total Products</p>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card">
+                        <div class="summary-icon in-stock">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="summary-info">
+                            <h3 id="inStockProducts">0</h3>
+                            <p>In Stock</p>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card">
+                        <div class="summary-icon low-stock">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="summary-info">
+                            <h3 id="lowStockProducts">0</h3>
+                            <p>Low Stock</p>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card">
+                        <div class="summary-icon out-of-stock">
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="summary-info">
+                            <h3 id="outOfStockProducts">0</h3>
+                            <p>Out of Stock</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Filters and Actions -->
+                <div class="filters-bar">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="inventorySearch" placeholder="Search inventory...">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <select id="inventoryCategoryFilter" class="filter-select">
+                            <option value="">All Categories</option>
+                            <option value="Electronics">Electronics</option>
+                            <option value="Clothing">Clothing</option>
+                            <option value="Home & Garden">Home & Garden</option>
+                            <option value="Books">Books</option>
+                            <option value="Toys">Toys</option>
+                        </select>
+                        
+                        <select id="stockStatusFilter" class="filter-select">
+                            <option value="">All Status</option>
+                            <option value="in-stock">In Stock</option>
+                            <option value="low-stock">Low Stock</option>
+                            <option value="out-of-stock">Out of Stock</option>
+                        </select>
+                        
+                        <button class="btn btn-outline" id="bulkUpdateBtn">
+                            <i class="fas fa-sync-alt"></i> Bulk Update
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Inventory Table -->
+                <div class="table-container">
+                    <table class="data-table" id="inventoryTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" id="inventorySelectAll">
+                                </th>
+                                <th>Product</th>
+                                <th>SKU</th>
+                                <th>Category</th>
+                                <th>Current Stock</th>
+                                <th>Low Stock Threshold</th>
+                                <th>Status</th>
+                                <th>Last Updated</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Inventory items will be loaded here -->
+                        </tbody>
+                    </table>
+                    
+                    <div class="table-footer">
+                        <div class="table-info">
+                            Showing <span id="inventoryCount">0</span> inventory items
+                        </div>
+                        <div class="table-actions">
+                            <button class="btn btn-outline" id="exportInventoryBtn">
+                                <i class="fas fa-download"></i> Export CSV
+                            </button>
+                            <div class="pagination">
+                                <button class="pagination-btn" disabled>
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <span>Page 1 of 3</span>
+                                <button class="pagination-btn">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Stock Movement History -->
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Recent Stock Movements</h3>
+                        <select class="filter-select" id="movementTypeFilter">
+                            <option value="">All Movements</option>
+                            <option value="sale">Sales</option>
+                            <option value="restock">Restocks</option>
+                            <option value="adjustment">Adjustments</option>
+                            <option value="return">Returns</option>
+                        </select>
+                    </div>
+                    
+                    <table class="data-table" id="stockMovementTable">
+                        <thead>
+                            <tr>
+                                <th>Date & Time</th>
+                                <th>Product</th>
+                                <th>SKU</th>
+                                <th>Type</th>
+                                <th>Quantity Change</th>
+                                <th>New Stock Level</th>
+                                <th>User</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Stock movements will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Adjust Stock Modal -->
+    <div class="modal" id="adjustStockModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Adjust Stock Level</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="adjustStockForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="adjustProduct">Product *</label>
+                        <select id="adjustProduct" required>
+                            <option value="">Select Product</option>
+                            <!-- Products will be populated here -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="adjustType">Adjustment Type *</label>
+                        <select id="adjustType" required>
+                            <option value="restock">Restock (Add Inventory)</option>
+                            <option value="damage">Damage/Waste (Remove)</option>
+                            <option value="correction">Stock Correction</option>
+                            <option value="transfer">Transfer to Another Store</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="currentStock">Current Stock</label>
+                            <input type="number" id="currentStock" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="adjustQuantity">Adjustment Quantity *</label>
+                            <input type="number" id="adjustQuantity" required>
+                            <span class="input-hint">Use negative for reduction</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="adjustReason">Reason for Adjustment</label>
+                        <textarea id="adjustReason" rows="2" placeholder="Enter reason for stock adjustment..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="adjustDate">Adjustment Date</label>
+                        <input type="datetime-local" id="adjustDate">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary modal-close">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Apply Adjustment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Bulk Update Modal -->
+    <div class="modal" id="bulkUpdateModal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>Bulk Stock Update</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="bulkUpdateForm">
+                <div class="modal-body">
+                    <div class="bulk-update-instructions">
+                        <p>Update multiple products at once. You can adjust stock levels or update thresholds.</p>
+                        
+                        <div class="bulk-action-select">
+                            <label>Action to Perform:</label>
+                            <select id="bulkAction">
+                                <option value="adjust">Adjust Stock Levels</option>
+                                <option value="threshold">Update Low Stock Thresholds</option>
+                                <option value="status">Update Status</option>
+                            </select>
+                        </div>
+                        
+                        <div class="bulk-action-form" id="adjustStockFormSection">
+                            <div class="form-group">
+                                <label for="bulkAdjustType">Adjustment Type</label>
+                                <select id="bulkAdjustType">
+                                    <option value="add">Add to Stock</option>
+                                    <option value="set">Set Stock to Specific Value</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="bulkAdjustValue">Value</label>
+                                <input type="number" id="bulkAdjustValue" min="0">
+                            </div>
+                        </div>
+                        
+                        <div class="bulk-action-form" id="updateThresholdFormSection" style="display: none;">
+                            <div class="form-group">
+                                <label for="bulkThresholdValue">New Low Stock Threshold</label>
+                                <input type="number" id="bulkThresholdValue" min="1" value="10">
+                            </div>
+                        </div>
+                        
+                        <div class="bulk-action-form" id="updateStatusFormSection" style="display: none;">
+                            <div class="form-group">
+                                <label for="bulkStatusValue">New Status</label>
+                                <select id="bulkStatusValue">
+                                    <option value="in-stock">In Stock</option>
+                                    <option value="low-stock">Low Stock</option>
+                                    <option value="out-of-stock">Out of Stock</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="selected-products">
+                            <h4>Selected Products (<span id="selectedCount">0</span>)</h4>
+                            <div class="selected-list" id="selectedProductsList">
+                                <!-- Selected products will appear here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary modal-close">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Apply Bulk Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="js/app.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/inventory.js"></script>
+</body>
+</html>

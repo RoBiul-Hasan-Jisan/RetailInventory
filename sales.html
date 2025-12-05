@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales | RetailPro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar (Same as dashboard) -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-store"></i>
+                    <h1>Retail<span>Pro</span></h1>
+                </div>
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <div class="sidebar-menu">
+                <ul>
+                    <li>
+                        <a href="dashboard.html">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="products.html">
+                            <i class="fas fa-boxes"></i>
+                            <span>Products</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="sales.html">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Sales</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="inventory.html">
+                            <i class="fas fa-warehouse"></i>
+                            <span>Inventory</span>
+                            <span class="badge low-stock">3</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="customers.html">
+                            <i class="fas fa-users"></i>
+                            <span>Customers</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="reports.html">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Reports</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="sidebar-footer">
+                    <div class="user-info">
+                        <div class="user-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="user-details">
+                            <h4>Admin User</h4>
+                            <p>Store Manager</p>
+                        </div>
+                    </div>
+                    <a href="index.html" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="main-header">
+                <div class="header-left">
+                    <h2>Sales Processing</h2>
+                    <p>Process new sales, view transaction history, and manage orders.</p>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-secondary" id="viewHistoryBtn">
+                        <i class="fas fa-history"></i> View History
+                    </button>
+                    <button class="btn btn-primary" id="newSaleBtn">
+                        <i class="fas fa-cash-register"></i> New Sale
+                    </button>
+                </div>
+            </header>
+            
+            <!-- Sales Content -->
+            <div class="content-section">
+                <!-- New Sale Form -->
+                <div class="sale-container" id="saleFormContainer">
+                    <div class="sale-header">
+                        <h3>New Sale Transaction</h3>
+                        <div class="sale-info">
+                            <div class="sale-id">
+                                <span>Transaction #:</span>
+                                <strong id="saleId">TRX-00123</strong>
+                            </div>
+                            <div class="sale-date">
+                                <span>Date:</span>
+                                <strong id="saleDate"></strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sale-body">
+                        <!-- Customer Selection -->
+                        <div class="customer-section">
+                            <h4>Customer Information</h4>
+                            <div class="customer-select">
+                                <select id="customerSelect" class="customer-dropdown">
+                                    <option value="">Walk-in Customer</option>
+                                    <option value="1">John Smith (VIP)</option>
+                                    <option value="2">Sarah Johnson</option>
+                                    <option value="3">Mike Brown</option>
+                                </select>
+                                <button class="btn btn-outline" id="addCustomerBtn">
+                                    <i class="fas fa-plus"></i> New Customer
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Product Search and Add -->
+                        <div class="product-search-section">
+                            <h4>Add Products</h4>
+                            <div class="product-search">
+                                <div class="search-box">
+                                    <i class="fas fa-search"></i>
+                                    <input type="text" id="saleProductSearch" placeholder="Search product by name or SKU...">
+                                </div>
+                                <button class="btn btn-secondary" id="browseProductsBtn">
+                                    <i class="fas fa-list"></i> Browse All
+                                </button>
+                            </div>
+                            
+                            <!-- Search Results -->
+                            <div class="search-results" id="productSearchResults">
+                                <!-- Results will appear here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Cart Items -->
+                        <div class="cart-section">
+                            <h4>Cart Items</h4>
+                            <div class="cart-container">
+                                <table class="cart-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Price</th>
+                                            <th>Quantity</th>
+                                            <th>Total</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="cartItems">
+                                        <!-- Cart items will be added here -->
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="cart-empty" id="emptyCartMessage">
+                                            <td colspan="5">
+                                                <div class="empty-cart">
+                                                    <i class="fas fa-shopping-cart"></i>
+                                                    <p>Your cart is empty. Add products to begin.</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Payment Section -->
+                        <div class="payment-section">
+                            <div class="totals-summary">
+                                <div class="totals-row">
+                                    <span>Subtotal:</span>
+                                    <span id="subtotal">$0.00</span>
+                                </div>
+                                <div class="totals-row">
+                                    <span>Tax (8%):</span>
+                                    <span id="taxAmount">$0.00</span>
+                                </div>
+                                <div class="totals-row discount-row">
+                                    <span>Discount:</span>
+                                    <div class="discount-input">
+                                        <input type="number" id="discount" min="0" max="100" placeholder="0">
+                                        <span>%</span>
+                                    </div>
+                                    <span id="discountAmount">-$0.00</span>
+                                </div>
+                                <div class="totals-row total-row">
+                                    <span>Total:</span>
+                                    <span id="totalAmount">$0.00</span>
+                                </div>
+                            </div>
+                            
+                            <div class="payment-methods">
+                                <h5>Payment Method</h5>
+                                <div class="payment-options">
+                                    <label class="payment-option">
+                                        <input type="radio" name="paymentMethod" value="cash" checked>
+                                        <span class="payment-icon">
+                                            <i class="fas fa-money-bill-wave"></i>
+                                        </span>
+                                        <span>Cash</span>
+                                    </label>
+                                    
+                                    <label class="payment-option">
+                                        <input type="radio" name="paymentMethod" value="card">
+                                        <span class="payment-icon">
+                                            <i class="fas fa-credit-card"></i>
+                                        </span>
+                                        <span>Card</span>
+                                    </label>
+                                    
+                                    <label class="payment-option">
+                                        <input type="radio" name="paymentMethod" value="mobile">
+                                        <span class="payment-icon">
+                                            <i class="fas fa-mobile-alt"></i>
+                                        </span>
+                                        <span>Mobile Pay</span>
+                                    </label>
+                                </div>
+                                
+                                <div class="cash-payment" id="cashPaymentSection">
+                                    <div class="form-group">
+                                        <label for="amountTendered">Amount Tendered</label>
+                                        <input type="number" id="amountTendered" step="0.01" min="0" placeholder="0.00">
+                                    </div>
+                                    <div class="change-display">
+                                        <span>Change:</span>
+                                        <span id="changeAmount">$0.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="sale-actions">
+                                <button class="btn btn-secondary" id="cancelSaleBtn">
+                                    <i class="fas fa-times"></i> Cancel Sale
+                                </button>
+                                <button class="btn btn-success" id="completeSaleBtn">
+                                    <i class="fas fa-check"></i> Complete Sale
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Sales Table -->
+                <div class="table-container" id="salesHistoryContainer" style="display: none;">
+                    <div class="table-header">
+                        <h3>Recent Sales</h3>
+                        <div class="table-actions">
+                            <div class="date-filter">
+                                <input type="date" id="salesStartDate">
+                                <span>to</span>
+                                <input type="date" id="salesEndDate">
+                            </div>
+                            <button class="btn btn-outline" id="exportSalesBtn">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <table class="data-table" id="salesHistoryTable">
+                        <thead>
+                            <tr>
+                                <th>Transaction ID</th>
+                                <th>Date</th>
+                                <th>Customer</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Payment Method</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Sales history will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- New Customer Modal -->
+    <div class="modal" id="newCustomerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Customer</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="newCustomerForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="customerName">Full Name *</label>
+                        <input type="text" id="customerName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customerEmail">Email Address</label>
+                        <input type="email" id="customerEmail">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customerPhone">Phone Number</label>
+                        <input type="tel" id="customerPhone">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customerType">Customer Type</label>
+                        <select id="customerType">
+                            <option value="regular">Regular</option>
+                            <option value="vip">VIP</option>
+                            <option value="wholesale">Wholesale</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary modal-close">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Customer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Sale Receipt Modal -->
+    <div class="modal" id="receiptModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Sale Receipt</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="receipt">
+                    <div class="receipt-header">
+                        <h4>RetailPro Store</h4>
+                        <p>123 Main Street, Anytown, USA</p>
+                        <p>Phone: (555) 123-4567</p>
+                    </div>
+                    
+                    <div class="receipt-details">
+                        <div class="receipt-row">
+                            <span>Transaction #:</span>
+                            <span id="receiptId">TRX-00123</span>
+                        </div>
+                        <div class="receipt-row">
+                            <span>Date:</span>
+                            <span id="receiptDate"></span>
+                        </div>
+                        <div class="receipt-row">
+                            <span>Customer:</span>
+                            <span id="receiptCustomer">Walk-in Customer</span>
+                        </div>
+                    </div>
+                    
+                    <div class="receipt-items" id="receiptItems">
+                        <!-- Receipt items will be added here -->
+                    </div>
+                    
+                    <div class="receipt-totals">
+                        <div class="receipt-row">
+                            <span>Subtotal:</span>
+                            <span id="receiptSubtotal">$0.00</span>
+                        </div>
+                        <div class="receipt-row">
+                            <span>Tax:</span>
+                            <span id="receiptTax">$0.00</span>
+                        </div>
+                        <div class="receipt-row">
+                            <span>Discount:</span>
+                            <span id="receiptDiscount">$0.00</span>
+                        </div>
+                        <div class="receipt-row total">
+                            <span>Total:</span>
+                            <span id="receiptTotal">$0.00</span>
+                        </div>
+                        <div class="receipt-row">
+                            <span>Payment:</span>
+                            <span id="receiptPayment">Cash</span>
+                        </div>
+                        <div class="receipt-row">
+                            <span>Change:</span>
+                            <span id="receiptChange">$0.00</span>
+                        </div>
+                    </div>
+                    
+                    <div class="receipt-footer">
+                        <p>Thank you for shopping with us!</p>
+                        <p>Please come again</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary modal-close">Close</button>
+                <button class="btn btn-primary" id="printReceiptBtn">
+                    <i class="fas fa-print"></i> Print Receipt
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/app.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/sales.js"></script>
+</body>
+</html>
