@@ -1,0 +1,109 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+}
+
+group = 'com.retailinventory'
+version = '2.0.0'
+sourceCompatibility = '11'
+targetCompatibility = '11'
+
+mainClassName = 'com.retailinventory.Main'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Core libraries
+    implementation 'org.apache.commons:commons-csv:1.9.0'
+    implementation 'commons-io:commons-io:2.11.0'
+    
+    // Logging
+    implementation 'org.apache.logging.log4j:log4j-api:2.17.1'
+    implementation 'org.apache.logging.log4j:log4j-core:2.17.1'
+    
+    // JSON processing
+    implementation 'com.google.code.gson:gson:2.9.0'
+    
+    // Excel export (Apache POI)
+    implementation 'org.apache.poi:poi:5.2.2'
+    implementation 'org.apache.poi:poi-ooxml:5.2.2'
+    
+    // PDF generation
+    implementation 'com.itextpdf:itext7-core:7.2.2'
+    
+    // Barcode generation
+    implementation 'com.google.zxing:core:3.5.0'
+    implementation 'com.google.zxing:javase:3.5.0'
+    
+    // Email
+    implementation 'com.sun.mail:javax.mail:1.6.2'
+    
+    // Database (optional)
+    implementation 'com.h2database:h2:2.1.214'
+    implementation 'org.xerial:sqlite-jdbc:3.40.0.0'
+    
+    // Testing
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.mockito:mockito-core:4.6.1'
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDirs = ['src/main/resources', 'data']
+        }
+    }
+}
+
+jar {
+    manifest {
+        attributes(
+            'Main-Class': mainClassName,
+            'Implementation-Title': 'Retail Inventory Pro',
+            'Implementation-Version': version
+        )
+    }
+    
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+shadowJar {
+    archiveBaseName.set('RetailInventoryPro')
+    archiveClassifier.set('')
+    archiveVersion.set(version)
+    
+    manifest {
+        inheritFrom project.tasks.jar.manifest
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.compilerArgs += ['-Xlint:unchecked', '-Xlint:deprecation']
+}
+
+run {
+    standardInput = System.in
+    systemProperty "file.encoding", "UTF-8"
+}
+
+// Task to run console version
+task runConsole(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.retailinventory.console.ConsoleApp'
+    standardInput = System.in
+}
+
+// Task to run GUI version
+task runGui(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = mainClassName
+    jvmArgs = ['-Dfile.encoding=UTF-8', '-Xmx1024m']
+}

@@ -1,0 +1,187 @@
+/* Main application styles */
+.root {
+    -fx-background-color: #f5f5f5;
+}
+
+/* Button styles */
+.button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16 8 16;
+    -fx-background-radius: 4;
+}
+
+.button:hover {
+    -fx-background-color: #2980b9;
+}
+
+.button:pressed {
+    -fx-background-color: #21618c;
+}
+
+/* Success button */
+.button-success {
+    -fx-background-color: #2ecc71;
+}
+
+.button-success:hover {
+    -fx-background-color: #27ae60;
+}
+
+/* Warning button */
+.button-warning {
+    -fx-background-color: #f39c12;
+}
+
+.button-warning:hover {
+    -fx-background-color: #d68910;
+}
+
+/* Danger button */
+.button-danger {
+    -fx-background-color: #e74c3c;
+}
+
+.button-danger:hover {
+    -fx-background-color: #c0392b;
+}
+
+/* Table styles */
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 4;
+}
+
+.table-view .column-header {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell {
+    -fx-border-color: #f0f0f0;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #f9f9f9;
+}
+
+.table-row-cell:even {
+    -fx-background-color: white;
+}
+
+/* Text field styles */
+.text-field {
+    -fx-background-color: white;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 4;
+    -fx-padding: 6 8 6 8;
+}
+
+.text-field:focused {
+    -fx-border-color: #3498db;
+}
+
+/* Combo box styles */
+.combo-box {
+    -fx-background-color: white;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 4;
+}
+
+.combo-box .list-cell {
+    -fx-padding: 6 8 6 8;
+}
+
+/* Label styles */
+.label-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.label-header {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #34495e;
+}
+
+.label-success {
+    -fx-text-fill: #27ae60;
+}
+
+.label-warning {
+    -fx-text-fill: #f39c12;
+}
+
+.label-danger {
+    -fx-text-fill: #e74c3c;
+}
+
+/* Panel styles */
+.panel {
+    -fx-background-color: white;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 6;
+    -fx-padding: 15;
+}
+
+.panel-header {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-padding: 0 0 10 0;
+}
+
+/* Tab pane styles */
+.tab-pane {
+    -fx-background-color: white;
+}
+
+.tab {
+    -fx-background-color: #ecf0f1;
+    -fx-padding: 8 15 8 15;
+}
+
+.tab:selected {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+}
+
+/* Menu styles */
+.menu-bar {
+    -fx-background-color: #2c3e50;
+}
+
+.menu {
+    -fx-text-fill: white;
+}
+
+.menu-item {
+    -fx-text-fill: #2c3e50;
+}
+
+/* Status bar styles */
+.status-bar {
+    -fx-background-color: #ecf0f1;
+    -fx-border-color: #bdc3c7;
+    -fx-border-width: 1 0 0 0;
+}
+
+/* Progress bar styles */
+.progress-bar .bar {
+    -fx-background-color: #3498db;
+    -fx-padding: 2;
+}
+
+.progress-bar {
+    -fx-background-color: #ecf0f1;
+    -fx-border-color: #bdc3c7;
+}
