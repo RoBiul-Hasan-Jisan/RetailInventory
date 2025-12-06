@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customers | RetailPro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar (Same as dashboard) -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-store"></i>
+                    <h1>Retail<span>Pro</span></h1>
+                </div>
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <div class="sidebar-menu">
+                <ul>
+                    <li>
+                        <a href="dashboard.html">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="products.html">
+                            <i class="fas fa-boxes"></i>
+                            <span>Products</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="sales.html">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Sales</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="inventory.html">
+                            <i class="fas fa-warehouse"></i>
+                            <span>Inventory</span>
+                            <span class="badge low-stock">3</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="customers.html">
+                            <i class="fas fa-users"></i>
+                            <span>Customers</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="reports.html">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Reports</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="sidebar-footer">
+                    <div class="user-info">
+                        <div class="user-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="user-details">
+                            <h4>Admin User</h4>
+                            <p>Store Manager</p>
+                        </div>
+                    </div>
+                    <a href="index.html" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="main-header">
+                <div class="header-left">
+                    <h2>Customer Management</h2>
+                    <p>Manage customer information, view purchase history, and track loyalty.</p>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-secondary" id="importCustomersBtn">
+                        <i class="fas fa-upload"></i> Import
+                    </button>
+                    <button class="btn btn-primary" id="addCustomerBtn">
+                        <i class="fas fa-user-plus"></i> Add Customer
+                    </button>
+                </div>
+            </header>
+            
+            <!-- Customers Content -->
+            <div class="content-section">
+                <!-- Customer Stats -->
+                <div class="customer-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalCustomers">0</h3>
+                            <p>Total Customers</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon vip">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="vipCustomers">0</h3>
+                            <p>VIP Customers</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-shopping-bag"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="avgPurchase">$0.00</h3>
+                            <p>Avg. Purchase Value</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="newThisMonth">0</h3>
+                            <p>New This Month</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Filters and Search -->
+                <div class="filters-bar">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="customerSearch" placeholder="Search customers by name, email, or phone...">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <select id="customerTypeFilter" class="filter-select">
+                            <option value="">All Types</option>
+                            <option value="regular">Regular</option>
+                            <option value="vip">VIP</option>
+                            <option value="wholesale">Wholesale</option>
+                        </select>
+                        
+                        <select id="customerStatusFilter" class="filter-select">
+                            <option value="">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Customers Table -->
+                <div class="table-container">
+                    <table class="data-table" id="customersTable">
+                        <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Contact</th>
+                                <th>Type</th>
+                                <th>Total Spent</th>
+                                <th>Last Purchase</th>
+                                <th>Total Orders</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Customers will be loaded here -->
+                        </tbody>
+                    </table>
+                    
+                    <div class="table-footer">
+                        <div class="table-info">
+                            Showing <span id="customerCount">0</span> customers
+                        </div>
+                        <div class="table-actions">
+                            <button class="btn btn-outline" id="exportCustomersBtn">
+                                <i class="fas fa-download"></i> Export CSV
+                            </button>
+                            <div class="pagination">
+                                <button class="pagination-btn" disabled>
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <span>Page 1 of 4</span>
+                                <button class="pagination-btn">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Customer Details Modal (hidden by default) -->
+                <div class="modal" id="customerDetailsModal">
+                    <div class="modal-content large">
+                        <div class="modal-header">
+                            <h3>Customer Details</h3>
+                            <button class="modal-close">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="customer-details">
+                                <div class="customer-header">
+                                    <div class="customer-avatar">
+                                        <i class="fas fa-user-circle"></i>
+                                    </div>
+                                    <div class="customer-info">
+                                        <h4 id="detailCustomerName">John Smith</h4>
+                                        <div class="customer-tags">
+                                            <span class="customer-tag vip" id="detailCustomerType">VIP</span>
+                                            <span class="customer-tag active" id="detailCustomerStatus">Active</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="customer-tabs">
+                                    <div class="tabs">
+                                        <button class="tab-btn active" data-tab="info">Information</button>
+                                        <button class="tab-btn" data-tab="purchases">Purchase History</button>
+                                        <button class="tab-btn" data-tab="notes">Notes</button>
+                                    </div>
+                                    
+                                    <div class="tab-content active" id="infoTab">
+                                        <div class="info-grid">
+                                            <div class="info-group">
+                                                <label>Email Address</label>
+                                                <p id="detailEmail">john.smith@email.com</p>
+                                            </div>
+                                            <div class="info-group">
+                                                <label>Phone Number</label>
+                                                <p id="detailPhone">(555) 123-4567</p>
+                                            </div>
+                                            <div class="info-group">
+                                                <label>Join Date</label>
+                                                <p id="detailJoinDate">2023-01-15</p>
+                                            </div>
+                                            <div class="info-group">
+                                                <label>Last Purchase</label>
+                                                <p id="detailLastPurchase">2023-10-28</p>
+                                            </div>
+                                            <div class="info-group">
+                                                <label>Total Spent</label>
+                                                <p id="detailTotalSpent">$2,450.75</p>
+                                            </div>
+                                            <div class="info-group">
+                                                <label>Total Orders</label>
+                                                <p id="detailTotalOrders">24</p>
+                                            </div>
+                                            <div class="info-group full-width">
+                                                <label>Address</label>
+                                                <p id="detailAddress">123 Main Street, Anytown, USA 12345</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="tab-content" id="purchasesTab">
+                                        <div class="purchases-table">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Date</th>
+                                                        <th>Order ID</th>
+                                                        <th>Items</th>
+                                                        <th>Amount</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="purchaseHistoryTable">
+                                                    <!-- Purchase history will be loaded here -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="tab-content" id="notesTab">
+                                        <div class="notes-section">
+                                            <div class="notes-list" id="customerNotesList">
+                                                <!-- Customer notes will be loaded here -->
+                                            </div>
+                                            <div class="add-note">
+                                                <textarea id="newCustomerNote" placeholder="Add a note about this customer..."></textarea>
+                                                <button class="btn btn-primary" id="saveNoteBtn">Add Note</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" id="editCustomerBtn">Edit Customer</button>
+                            <button class="btn btn-primary modal-close">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Add/Edit Customer Modal -->
+    <div class="modal" id="customerFormModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="customerModalTitle">Add New Customer</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="customerForm">
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="customerFirstName">First Name *</label>
+                            <input type="text" id="customerFirstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerLastName">Last Name *</label>
+                            <input type="text" id="customerLastName" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customerEmail">Email Address</label>
+                        <input type="email" id="customerEmail">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customerPhone">Phone Number</label>
+                        <input type="tel" id="customerPhone">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customerAddress">Address</label>
+                        <textarea id="customerAddress" rows="2"></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="customerType">Customer Type</label>
+                            <select id="customerType">
+                                <option value="regular">Regular</option>
+                                <option value="vip">VIP</option>
+                                <option value="wholesale">Wholesale</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerStatus">Status</label>
+                            <select id="customerStatus">
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <input type="hidden" id="customerId">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary modal-close">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Customer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Import Customers Modal -->
+    <div class="modal" id="importCustomersModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Import Customers</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="import-instructions">
+                    <p>Upload a CSV file with customer data. The file should include the following columns:</p>
+                    <ul>
+                        <li>First Name (required)</li>
+                        <li>Last Name (required)</li>
+                        <li>Email</li>
+                        <li>Phone</li>
+                        <li>Address</li>
+                    </ul>
+                    
+                    <div class="file-upload">
+                        <input type="file" id="customerCsvFile" accept=".csv">
+                        <label for="customerCsvFile" class="file-upload-label">
+                            <i class="fas fa-file-upload"></i>
+                            <span>Choose CSV File</span>
+                        </label>
+                        <span id="customerFileName">No file chosen</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary modal-close">Cancel</button>
+                <button class="btn btn-primary" id="importCustomersBtnConfirm" disabled>Import</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/app.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/customers.js"></script>
+</body>
+</html>
